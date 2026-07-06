@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ContentLocal — Never wonder what to post again</title>
+<meta name="description" content="Marketing content generated instantly for your local business." />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&display=swap" />
+<style>
+  :root {
+    --spruce:#1E4038; --spruce-dark:#142B26; --butter:#F2C94C;
+    --paper:#FBF9F4; --ink:#1A1A18; --mist:#E8E4DA; --clay:#B0533A;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:'Public Sans',sans-serif; }
+  .display { font-family:'Fraunces',serif; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 20px; }
+  .btn { background:var(--butter); color:var(--ink); border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink);
+    border-radius:10px; font-weight:700; font-size:16px; padding:13px 24px; cursor:pointer;
+    font-family:inherit; transition:transform .12s, box-shadow .12s; }
+  .btn:hover { transform:translate(-1px,-1px); box-shadow:4px 4px 0 var(--ink); }
+  .btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+  .btn:disabled { opacity:.65; cursor:wait; }
+  .btn-ghost { background:transparent; color:var(--paper); border:2px solid var(--paper); box-shadow:none; }
+  .card { background:#fff; border:2px solid var(--ink); box-shadow:4px 4px 0 var(--mist); border-radius:14px; }
+  nav { border-bottom:2px solid var(--ink); background:var(--paper); position:sticky; top:0; z-index:20; }
+  .nav-in { display:flex; align-items:center; justify-content:space-between; padding:14px 0; }
+  .logo { display:flex; align-items:center; gap:8px; background:none; border:none; cursor:pointer; font-family:'Fraunces',serif; font-weight:700; font-size:20px; color:var(--ink); }
+  .logo-dot { width:26px; height:26px; background:var(--spruce); border-radius:50% 50% 50% 4px; border:2px solid var(--ink); }
+  .hero { background:var(--spruce); color:var(--paper); border-bottom:2px solid var(--ink); }
+  .hero-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:48px; align-items:center; padding:64px 0 72px; }
+  .eyebrow { letter-spacing:2px; font-size:12px; font-weight:700; color:var(--butter); text-transform:uppercase; margin-bottom:16px; }
+  h1 { font-size:clamp(34px,5vw,52px); line-height:1.08; font-weight:700; margin:0; }
+  .hero p.sub { font-size:18px; line-height:1.6; margin-top:18px; color:#D9E2DD; max-width:440px; }
+  .hero small { display:block; font-size:13px; margin-top:12px; color:#A8BCB3; }
+  .post-card { padding:22px; color:var(--ink); min-height:190px; }
+  .post-head { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .avatar { width:34px; height:34px; border-radius:50%; background:var(--butter); border:2px solid var(--ink);
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-family:'Fraunces',serif; }
+  .post-biz { font-weight:700; font-size:14px; }
+  .post-meta { font-size:12px; color:#7A776E; }
+  .post-text { font-size:15px; line-height:1.55; margin:0; min-height:92px; }
+  .cursor { border-left:2px solid var(--spruce); margin-left:2px; }
+  section.pad { padding:64px 0; }
+  h2 { font-family:'Fraunces',serif; font-size:30px; font-weight:700; margin:0 0 32px; }
+  .grid3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
+  .step { padding:22px; }
+  .step .t { font-family:'Fraunces',serif; font-weight:700; font-size:20px; color:var(--spruce); }
+  .step p { margin-top:8px; line-height:1.55; color:#4B4A45; font-size:15px; }
+  .band { background:var(--mist); border-top:2px solid var(--ink); border-bottom:2px solid var(--ink); }
+  .tag { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; background:var(--butter);
+    padding:3px 8px; border-radius:6px; border:1.5px solid var(--ink); display:inline-block; }
+  .ex { padding:20px; }
+  .ex p.txt { margin-top:14px; font-size:15px; line-height:1.6; }
+  .ex p.who { margin-top:10px; font-size:13px; color:#7A776E; font-weight:600; }
+  .plan { padding:26px; text-align:center; }
+  .plan.featured { background:var(--spruce); color:var(--paper); }
+  .plan .name { font-weight:700; font-size:14px; text-transform:uppercase; letter-spacing:1px; color:var(--spruce); }
+  .plan.featured .name { color:var(--butter); }
+  .plan .price { font-family:'Fraunces',serif; font-size:38px; font-weight:700; margin:10px 0 4px; }
+  .plan .detail { font-size:14px; color:#66645D; min-height:40px; }
+  .plan.featured .detail { color:#C9D6D0; }
+  footer { border-top:2px solid var(--ink); background:var(--spruce-dark); color:#A8BCB3; }
+  .foot-in { display:flex; flex-wrap:wrap; gap:16px; justify-content:space-between; font-size:13px; padding:28px 0; }
+  .foot-brand { font-family:'Fraunces',serif; color:var(--paper); font-weight:700; font-size:16px; }
+  /* Generator */
+  #genPage { display:none; }
+  .gen-wrap { max-width:760px; margin:0 auto; padding:48px 20px 80px; }
+  label { font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px; color:var(--spruce); }
+  input, select { width:100%; padding:12px 14px; border-radius:9px; border:2px solid var(--ink); font-size:15px; font-family:inherit; background:#fff; }
+  input:focus, select:focus { outline:none; border-color:var(--spruce); }
+  .form { padding:24px; display:grid; gap:18px; }
+  .row3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
+  .result { padding:24px; margin-top:24px; background:var(--spruce); color:var(--paper); display:none; }
+  .result .rt { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--butter); margin-bottom:10px; }
+  .result p { white-space:pre-wrap; line-height:1.65; font-size:16px; margin:0; }
+  .result .actions { display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; }
+  .upsell { padding:22px; margin-top:24px; text-align:center; display:none; }
+  .err { color:var(--clay); font-weight:600; margin-top:16px; display:none; }
+  .pill { font-size:13px; font-weight:600; background:var(--mist); padding:4px 10px; border-radius:20px; }
+</style>
+</head>
+<body>
+
+<nav><div class="wrap nav-in">
+  <button class="logo" onclick="showPage('home')"><span class="logo-dot"></span>ContentLocal</button>
+  <div style="display:flex;gap:10px;align-items:center">
+    <span class="pill" id="pillCount" style="display:none">3 free left</span>
+    <button class="btn" style="padding:8px 16px;font-size:14px" onclick="showPage('app')">Try it free</button>
+  </div>
+</div></nav>
+
+<!-- ============ HOME ============ -->
+<main id="homePage">
+  <section class="hero"><div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">For local businesses</p>
+      <h1 class="display">Never wonder what to post again.</h1>
+      <p class="sub">Tell us what you do and where. Get social posts, service descriptions, and customer emails written for your business — in 30 seconds.</p>
+      <button class="btn" style="margin-top:28px" onclick="showPage('app')">Try it free — 3 generations on us</button>
+      <small>No signup. No credit card.</small>
+    </div>
+    <div class="card post-card">
+      <div class="post-head">
+        <span class="avatar" id="heroAvatar">R</span>
+        <div><div class="post-biz" id="heroBiz">Riverside Barbershop · Portland</div>
+        <div class="post-meta">Just now · written by ContentLocal</div></div>
+      </div>
+      <p class="post-text"><span id="heroText"></span><span class="cursor"></span></p>
+    </div>
+  </div></section>
+
+  <section class="pad"><div class="wrap">
+    <h2>How it works</h2>
+    <div class="grid3">
+      <div class="card step"><div class="t">Describe your business</div><p>Your trade, your city, your vibe. Takes 20 seconds.</p></div>
+      <div class="card step"><div class="t">Pick what you need</div><p>A social post, a service description, or an email to customers.</p></div>
+      <div class="card step"><div class="t">Copy and publish</div><p>Get ready-to-use content. Regenerate until it sounds like you.</p></div>
+    </div>
+  </div></section>
+
+  <section class="band"><div class="wrap" style="padding-top:64px;padding-bottom:64px">
+    <h2 style="margin-bottom:8px">Written like a human. Made for your trade.</h2>
+    <p style="color:#55534C;margin:0 0 32px">Real examples generated for businesses like yours.</p>
+    <div class="grid3">
+      <div class="card ex"><span class="tag">Social post</span><p class="txt">"Monday motivation isn't about crushing it — it's about showing up. 20 minutes counts. Your future self says thanks. 💪"</p><p class="who">Personal trainer, Denver</p></div>
+      <div class="card ex"><span class="tag">Service description</span><p class="txt">"Custom shelving built to fit your space exactly — measured, crafted, and installed within two weeks. Local hardwood, honest quotes."</p><p class="who">Carpenter, Asheville</p></div>
+      <div class="card ex"><span class="tag">Customer email</span><p class="txt">"We've missed you! This week only: bring a friend and dessert is on the house. Reply to book your table. 🍰"</p><p class="who">Neighborhood café</p></div>
+    </div>
+  </div></section>
+
+  <section class="pad" id="pricing"><div class="wrap">
+    <h2 style="text-align:center">Simple pricing</h2>
+    <div class="grid3">
+      <div class="card plan"><div class="name">Starter</div><div class="price display">Free</div><p class="detail">3 generations to try it out</p><button class="btn" style="width:100%" onclick="showPage('app')">Start now</button></div>
+      <div class="card plan featured"><div class="name">Pro</div><div class="price display">€19/mo</div><p class="detail">50 generations per month</p><button class="btn" style="width:100%" onclick="subscribe('pro')">Subscribe</button></div>
+      <div class="card plan"><div class="name">Unlimited</div><div class="price display">€39/mo</div><p class="detail">Unlimited generations</p><button class="btn" style="width:100%" onclick="subscribe('unlimited')">Subscribe</button></div>
+    </div>
+  </div></section>
+</main>
+
+<!-- ============ GENERATOR ============ -->
+<main id="genPage">
+  <div class="gen-wrap">
+    <h1 class="display" style="font-size:32px">Your content, ready in 30 seconds</h1>
+    <p style="color:#55534C;margin:6px 0 28px">Fill this in once — then generate as many angles as you like.</p>
+
+    <div class="card form">
+      <div>
+        <label>Your business</label>
+        <select id="sector" onchange="onSector()">
+          <option>Fitness coach / personal trainer</option>
+          <option>Restaurant / café</option>
+          <option>Hair salon / barbershop</option>
+          <option>Real estate agent</option>
+          <option>Plumber / electrician / handyman</option>
+          <option>Massage / wellness therapist</option>
+          <option>Photographer</option>
+          <option>Pet groomer / dog walker</option>
+          <option>Other (describe below)</option>
+        </select>
+      </div>
+      <div>
+        <label id="customLabel">Anything specific? (optional)</label>
+        <input id="custom" placeholder="e.g. We're running a spring promo" />
+      </div>
+      <div class="row3">
+        <div><label>City / area</label><input id="city" placeholder="e.g. Brooklyn" /></div>
+        <div><label>Tone</label><select id="tone"><option>Professional</option><option selected>Friendly & casual</option><option>Premium & polished</option></select></div>
+        <div><label>Content type</label><select id="ctype"><option>Social media post</option><option>Service description</option><option>Customer email</option></select></div>
+      </div>
+      <button class="btn" id="genBtn" onclick="generate(false)">Generate my content (3 free left)</button>
+    </div>
+
+    <p class="err" id="errBox">Generation failed. Check your connection and try again.</p>
+
+    <div class="card result" id="resultBox">
+      <div class="rt" id="resultType">Your content</div>
+      <p id="resultText"></p>
+      <div class="actions">
+        <button class="btn" style="padding:10px 18px" onclick="copyResult(this)">Copy</button>
+        <button class="btn btn-ghost" style="padding:10px 18px" id="regenBtn" onclick="generate(true)">Regenerate</button>
+      </div>
+    </div>
+
+    <div class="card upsell" id="upsell">
+      <p class="display" style="font-weight:700;font-size:20px;margin:0">You've used your free generations</p>
+      <p style="color:#55534C;margin:8px 0 14px">Keep the momentum — plans start at €19/month.</p>
+      <button class="btn" onclick="showPage('home');setTimeout(()=>document.getElementById('pricing').scrollIntoView({behavior:'smooth'}),80)">See plans</button>
+    </div>
+  </div>
+</main>
+
+<footer><div class="wrap foot-in">
+  <span class="foot-brand">ContentLocal</span>
+  <span>Made for the businesses that make your neighborhood. · contact@contentlocal.app</span>
+</div></footer>
+
+<script>
+// ---------- Stripe payment links: paste yours here after creating them ----------
+const STRIPE_LINKS = {
+  pro: "",        // e.g. "https://buy.stripe.com/xxxx"
+  unlimited: "",  // e.g. "https://buy.stripe.com/yyyy"
+};
+function subscribe(plan) {
+  const link = STRIPE_LINKS[plan];
+  if (link) { window.location.href = link; }
+  else { alert("Checkout coming soon — Stripe Payment Link not connected yet."); }
+}
+
+// ---------- Page switching ----------
+function showPage(p) {
+  document.getElementById('homePage').style.display = p === 'home' ? '' : 'none';
+  document.getElementById('genPage').style.display = p === 'app' ? 'block' : 'none';
+  document.getElementById('pillCount').style.display = p === 'app' ? '' : 'none';
+  window.scrollTo(0, 0);
+}
+
+// ---------- Hero typewriter ----------
+const SAMPLES = [
+  { biz: "Riverside Barbershop · Portland", text: "Fresh fade season is here. ✂️ Walk-ins welcome all week — first coffee's on us while you wait. Who's due for a cleanup?" },
+  { biz: "Luna Yoga Studio · Austin", text: "New to yoga? Our Sunday beginner flow is judgment-free, slow-paced, and ends with 10 blissful minutes of rest. Mats provided. 🧘" },
+  { biz: "Torres Plumbing · Chicago", text: "That dripping faucet costs you ~$60/year in water. We'll fix it in under an hour — same-day slots open this week. 🔧" },
+];
+let sIdx = 0;
+function typeLoop() {
+  const s = SAMPLES[sIdx];
+  document.getElementById('heroBiz').textContent = s.biz;
+  document.getElementById('heroAvatar').textContent = s.biz[0];
+  const el = document.getElementById('heroText');
+  el.textContent = "";
+  let i = 0;
+  const t = setInterval(() => {
+    i++;
+    el.textContent = s.text.slice(0, i);
+    if (i >= s.text.length) {
+      clearInterval(t);
+      setTimeout(() => { sIdx = (sIdx + 1) % SAMPLES.length; typeLoop(); }, 2600);
+    }
+  }, 22);
+}
+typeLoop();
+
+// ---------- Generator ----------
+let freeLeft = 3;
+function onSector() {
+  const other = document.getElementById('sector').value.startsWith('Other');
+  document.getElementById('customLabel').textContent = other ? 'Describe your business' : 'Anything specific? (optional)';
+  document.getElementById('custom').placeholder = other ? 'e.g. Mobile bike repair service' : "e.g. We're running a spring promo";
+}
+function updateCounter() {
+  document.getElementById('pillCount').textContent = freeLeft + " free left";
+  const btn = document.getElementById('genBtn');
+  btn.textContent = freeLeft > 0 ? "Generate my content (" + freeLeft + " free left)" : "Upgrade to keep generating";
+}
+async function generate(regen) {
+  if (freeLeft <= 0) {
+    document.getElementById('upsell').style.display = 'block';
+    document.getElementById('upsell').scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+  const sector = document.getElementById('sector').value;
+  const custom = document.getElementById('custom').value;
+  const city = document.getElementById('city').value;
+  const tone = document.getElementById('tone').value;
+  const ctype = document.getElementById('ctype').value;
+  const business = sector.startsWith('Other') ? custom : sector;
+
+  const prompt = `You are a marketing copywriter for small local businesses. Write ONE piece of content, nothing else — no preamble, no options, no explanations.
+
+Business: ${business}${custom && !sector.startsWith('Other') ? ' — extra details: ' + custom : ''}
+Location: ${city || 'a local neighborhood'}
+Tone: ${tone}
+Content type: ${ctype}
+
+Rules: sound human and specific to this trade and place, keep it concise (a social post = 2-4 sentences max; an email = short with a subject line; a service description = one tight paragraph). Include at most 1-2 fitting emojis if the tone is casual, none if premium.${regen ? ' Give a fresh, different angle from a typical first attempt.' : ''}`;
+
+  const genBtn = document.getElementById('genBtn');
+  const regenBtn = document.getElementById('regenBtn');
+  genBtn.disabled = true; regenBtn.disabled = true;
+  genBtn.textContent = "Writing…";
+  document.getElementById('errBox').style.display = 'none';
+
+  try {
+    const res = await fetch('/.netlify/functions/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt }),
+    });
+    if (!res.ok) throw new Error('Request failed');
+    const data = await res.json();
+    const text = (data.text || '').trim();
+    if (!text) throw new Error('Empty response');
+    freeLeft--;
+    document.getElementById('resultType').textContent = 'Your ' + ctype.toLowerCase();
+    document.getElementById('resultText').textContent = text;
+    document.getElementById('resultBox').style.display = 'block';
+    if (freeLeft <= 0) document.getElementById('upsell').style.display = 'block';
+  } catch (e) {
+    document.getElementById('errBox').style.display = 'block';
+  } finally {
+    genBtn.disabled = false; regenBtn.disabled = false;
+    updateCounter();
+  }
+}
+function copyResult(btn) {
+  const text = document.getElementById('resultText').textContent;
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  btn.textContent = 'Copied ✓';
+  setTimeout(() => { btn.textContent = 'Copy'; }, 1800);
+}
+</script>
+</body>
+</html>
